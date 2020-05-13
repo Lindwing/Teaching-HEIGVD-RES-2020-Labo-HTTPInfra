@@ -27,3 +27,47 @@ Nous lançons le conteneur de notre docker avec :
 `docker run -d -p 9090:80 res/apache_php`
 
 Maintenant pour s'y connecter ils nous faut aller sur notre navigateur et entrer dans la barre de recherche l'adresse IP fournis via docker et y rajouter le port sélectionner, ici 9090.
+
+## step 3 : reverse proxy apache static
+
+Dans cette partie nous allons réaliser un serveur proxy pour docker.
+
+Dans un premier temps il faut créer un docker file contenant les instructions suivantes:
+```
+FROM php:5.6-apache
+
+COPY conf/ /etc/apache2
+
+RUN a2enmod proxy proxy_http
+RUN a2ensite 000-* 001-*
+```
+
+Les deux dernières lignes permettent d'activer les modules pour le bon fonctionnement de notre proxy.
+
+Le dossier conf, qui est copier, lui contiendra nos 2 fichier de configurations qui sont, 000-default.conf et 001-reverse-proxy.conf qui permettra de rediriger l'utilisateur.
+
+Contenue du 000-default.conf :
+```
+<VirtualHost *:80>
+</VirtualHost>
+```
+
+et pour 001-reverse-proxy.conf:
+```
+<Virtualhost *:80>
+	ServerName labo.res.ch
+
+
+	ProxyPass "/api/students/" "http://172.17.0.3:3000/"
+	ProxyPassReverse "/api/students/" "http://172.17.0.3:3000/"
+
+	ProxyPass "/" "http://172.17.0.2:80/"
+	ProxyPassReverse "/" "http://172.17.0.2:80/"
+
+</VirtualHost>
+```
+
+Le port d'entrée 80 est pris comme port d'entrée à l'entrée du container, qu'il reste à associer au 8080 qui permet de communiquer avec l'extérieur. Le nom de domaine utilisé pour 
+appeler le serveur proxy est "labo.res.ch". Pour le bon fonctionnement il faut enregistrer l'ip fournis par docker et le lier au nom du server dans le fichier host.
+Les 2 paires de directives gèrent chacune la redirection de requêtes au serveur dynamique express (1ere paire), ainsi que la redirection au 
+serveur statique (2e paire). Les IP pour chaque serveur sont statiquement fixées donc il faut faire attention à l'ordre dans lequel on lance nos containers.
