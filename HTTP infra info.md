@@ -28,6 +28,18 @@ Nous lançons le conteneur de notre docker avec :
 
 Maintenant pour s'y connecter ils nous faut aller sur notre navigateur et entrer dans la barre de recherche l'adresse IP fournis via docker et y rajouter le port sélectionner, ici 9090.
 
+## step 2 : Dynamic HTTP server with express.js
+
+Dans cette partie, nous devons faire un serveur http dynamique avec node.js, on utilise express.js comme Framework pour node.js.
+
+1) Nous commençons par créer un dockerfile, puis nous avons utilisé npm init.  Nous avons installé le module chancejs. Nous installons les dépendances pour express avec npm et après on fait un `docker build -t res/express_cities .`pour créer l'image. Pour l'executé on fait `docker run -p 9090:3000 res/express_cities`. Puis on se connecte sur le navigateur et il nous renvoie une liste de villes.
+
+2) nous avons utilisé node.js 12.16 à la place de node.js 4.4. A la place des students, nous avons crée une liste de villes aléatoires avec chancejs.
+
+3)  Nous utilisons node.js 12.16 et nous utilisons docker toolbox sur Windows
+
+4)Vérifiez que docker est déjà démarré, puis allé dans le dossier du projet et là vous démarrez un terminal. A partir du terminal utilisez la commande `cd docker-images/express-image/`. A ce moment là, on utilise la commande `docker build -t res/express_cities .`, puis la commande `docker run -p 9090:3000 res/express_cities`. Dans votre navigateur mettez la barre d'adresse http://192.168.99.100:9090/ et là il affiche une liste de villes aléatoire.
+
 ## step 3 : reverse proxy apache static
 
 Dans cette partie nous allons réaliser un serveur proxy pour docker.
