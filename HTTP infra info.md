@@ -71,3 +71,39 @@ Le port d'entrée 80 est pris comme port d'entrée à l'entrée du container, qu
 appeler le serveur proxy est "labo.res.ch". Pour le bon fonctionnement il faut enregistrer l'ip fournis par docker et le lier au nom du server dans le fichier host.
 Les 2 paires de directives gèrent chacune la redirection de requêtes au serveur dynamique express (1ere paire), ainsi que la redirection au 
 serveur statique (2e paire). Les IP pour chaque serveur sont statiquement fixées donc il faut faire attention à l'ordre dans lequel on lance nos containers.
+
+## step 5 : reverse proxy et ip dynamique
+
+Ici nous allons régler notre problème lié au fait que nous devons lancer les docker dans un certaine ordre pour nos fichier de configurations. En effet si pour une raison ou une autre
+nos adresses de containers n'était pas identique à celle de notre fichier de configuration, 001-reverse-proxy.conf, alors cela ne fonctionnait pas.
+
+Pour corriger ce problème nous allons faire que nous pouvons attribuer dynamiquement les adresses à notre proxy. Pour ce faire nous allons réécrire notre fichier 001-reverse-proxy.conf.
+Pour ce faire nous allons créer un fichier config-template.php qui prendra les adresses ip et le port de nos containers.
+Nous créons un fichier apache2-foreground qui s'occupera de remplacer notre fichier 001-reverse-proxy.conf.
+
+Ensuite nous modifions notre docker file de cette manière :
+Dockerfile :
+```
+FROM php:5.6-apache
+
+RUN apt-get update && \
+	apt-get install -y vim
+
+COPY apache2-foreground /usr/local/bin/
+COPY templates /var/apache2/templates
+
+COPY conf/ /etc/apache2
+
+RUN a2enmod proxy proxy_http
+RUN a2ensite 000-* 001-*
+```
+
+maintenant en créant notre conainer nous pouvons attribuer les adresses de cette manière:
+```docker run -e ENV_VAR1=adresseIP:Port -e ENV_VAR1=adresseIP:Port image_docker```
+
+le nom des variables d'environnement sont décidé lors de la création de notre ficher config-templace.
+Les deux adresse ip elles sont celle de nos containers.
+image_docker est l'image de notre reverse proxy.
+
+Exemple de commande:
+```docker run -e STATIC_APP=172.17.0.3:80 -e DYNAMIC_APP=172.17.0.2:3000 res/apache_rp```
