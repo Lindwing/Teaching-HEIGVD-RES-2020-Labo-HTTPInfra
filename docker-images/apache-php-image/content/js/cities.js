@@ -8,7 +8,7 @@ $(function(){
                 if(cities.length > 0){
                         message = cities[0].name;
                 }
-                $(".container").text(message);
+                $(".cities").text(message);
         });
  };                                                                                                                     
  loadCities();
