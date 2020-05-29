@@ -107,3 +107,20 @@ image_docker est l'image de notre reverse proxy.
 
 Exemple de commande:
 ```docker run -e STATIC_APP=172.17.0.3:80 -e DYNAMIC_APP=172.17.0.2:3000 res/apache_rp```
+
+#Step Bonus
+
+## Bonus 1 : Management UI
+
+Le but est de pouvoir manager notre infrstructure web avec une interface graphique.
+
+Pour cela nous allons utilisé ```Portainer.io```
+
+Portainer permet de gérer docker à travers une interface web. Un autre avantage il permet de se lancé et être utilisé à travers docker sans besoin de l'installer directement sur notre machine.
+Portainer expose le port 9000 et va écouter le socket ```/var/run/docker.sock``` ainsi il aura accès aux diverse informations lié à docker ( comme les images, les container lancé etc...) et permettra de gérer directement tous les containers.
+
+Pour plus de détail la vidéos : ```https://www.youtube.com/watch?v=GNG6PDFxQyQ```
+
+Pour installer et lancer ```portainer.io``` avec docker il faut faire cette commande:
+
+```docker run -it -d --name portainer -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 portainer/portainer```
