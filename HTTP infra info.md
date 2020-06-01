@@ -143,7 +143,6 @@ Pour installer et lancer ```portainer.io``` avec docker il faut faire cette comm
 
 ```docker run -it -d --name portainer -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 portainer/portainer```
 
-<<<<<<< HEAD
 Après pour y accéder il suffit de placer l'ip de votre docker (généralement ```192.168.99.100```) suivit du port, ici 9000.
 
 ## Bonus 2 : Load Balancing
@@ -189,6 +188,3 @@ Le fichier config-template contient ceci:
 `</VirtualHost>`
 
 Test: pour tester le load balancing, nous avons fait simple nous lançons 3 paires de serveurs, puis nous arrêtons 2 paires et le site fonctionne toujours.
-=======
-Après pour y accèder il suffit de placer l'ip de votre docker (générallement ```192.168.99.100```) suivit du port, ici 9000.
->>>>>>> dbf93a3f521004714c3d78c16f26ba5ed7d1aff7
