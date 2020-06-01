@@ -126,7 +126,7 @@ image_docker est l'image de notre reverse proxy.
 Exemple de commande:
 ```docker run -e STATIC_APP=172.17.0.3:80 -e DYNAMIC_APP=172.17.0.2:3000 res/apache_rp```
 
-#Step Bonus
+# Step Bonus
 
 ## Bonus 1 : Management UI
 
