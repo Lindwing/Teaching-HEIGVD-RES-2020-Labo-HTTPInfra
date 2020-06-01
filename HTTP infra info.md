@@ -1,10 +1,10 @@
 # Labo HTTP Infra 
 
-## step 1 : serveur HTTP static (apache)
+## Step 1 : serveur HTTP static (apache)
 
-Dans ette partie nous devons créer un site static et pourvoir y accèder en utilisant docker. Pour cela nous allons créer un une image docker permettant ceci. Après nous irons chercher une template pour notre site que nous ajouterons.
+Dans cette partie nous devons créer un site static et pourvoir y accéder en utilisant docker. Pour cela nous allons créer un une image docker permettant ceci. Après nous irons chercher une template pour notre site que nous ajouterons.
 
-Dans un premier temps nous créons un Dockerfile qui contiendra nos informations pour le builds. Après cela nous choissions une image précoustruite pour notre site, ici apache 5.6.
+Dans un premier temps nous créons un Dockerfile qui contiendra nos informations pour le builds. Après cela nous choisissons une image préconstruite pour notre site, ici apache 5.6.
 
 
 Dans un second temps nous allons chercher une template via start boostrap, nous la modifions selon nos préférences, puis nous l'ajoutons dans notre dossier content et nous spécifions au Dockerfile où il devra être copié.
@@ -17,7 +17,7 @@ FROM php:5.6-apache
 COPY content/ /var/www/html/
 ```
 
-Nous consturisons l'image avec la commande :
+Nous construisons l'image avec la commande :
 `docker build -t res/apache2_php <location_du_dockerfile>`
 ou bien
 `docker build -t res/apache2_php .`
@@ -32,12 +32,12 @@ Maintenant pour s'y connecter ils nous faut aller sur notre navigateur et entrer
 
 Dans cette partie, nous devons faire un serveur http dynamique avec node.js, on utilise express.js comme Framework pour node.js.
 
-1. Nous commençons par créer un dockerfile, puis nous avons utilisé npm  init.  Nous avons installé le module chancejs. Nous installons les   dépendances pour express avec npm et après on fait un `docker build -t res/express_cities .`pour créer l'image. Pour l'executé on fait `docker run -p 9090:3000 res/express_cities`. Puis on se connecte sur le navigateur et il nous renvoie une liste de villes.
+1. Nous commençons par créer un dockerfile, puis nous avons utilisé npm  init.  Nous avons installé le module chancejs. Nous installons les   dépendances pour express avec npm et après on fait un `docker build -t res/express_cities .`pour créer l'image. Pour l'éxecuté on fait `docker run -p 9090:3000 res/express_cities`. Puis on se connecte sur le navigateur et il nous renvoie une liste de villes.
 2. nous avons utilisé node.js 12.16 à la place de node.js 4.4. A la   place des students, nous avons crée une liste de villes aléatoires avec  chancejs.
 3. Nous utilisons node.js 12.16 et nous utilisons docker toolbox sur Windows
 4. Vérifiez que docker est déjà démarré, puis allé dans le dossier du   projet et là vous démarrez un terminal. A partir du terminal utilisez la commande `cd docker-images/express-image/`. A ce moment là, on utilise la commande `docker build -t res/express_cities .`, puis la commande `docker run -p 9090:3000 res/express_cities`. Dans votre navigateur mettez la barre d'adresse http://192.168.99.100:9090/ et là il affiche une liste de villes aléatoire.
 
-## step 3 : reverse proxy apache static
+## Step 3 : reverse proxy apache static
 
 Dans cette partie nous allons réaliser un serveur proxy pour docker.
 
@@ -81,7 +81,7 @@ appeler le serveur proxy est "labo.res.ch". Pour le bon fonctionnement il faut e
 Les 2 paires de directives gèrent chacune la redirection de requêtes au serveur dynamique express (1ere paire), ainsi que la redirection au 
 serveur statique (2e paire). Les IP pour chaque serveur sont statiquement fixées donc il faut faire attention à l'ordre dans lequel on lance nos containers.
 
-## step 4 : AJAX requests with JQuery
+## Step 4 : AJAX requests with JQuery
 
 Dans cette partie, nous devons utiliser la librairie JavaScript   JQuery pour envoyer des requêtes (AJAX) vers le serveur dynamique   (express.js) et pour mettre à jour la page web (DOM).
 
@@ -90,7 +90,7 @@ Dans cette partie, nous devons utiliser la librairie JavaScript   JQuery pour en
 3. Nous avons changé la class container dans l'index.html ce qui fait qu'il y plusieurs endroit ou le nom des villes apparait.
 4. Vérifiez que docker est déjà démarré, puis allé dans le dossier du   projet et là vous démarrez un terminal. A partir du terminal utilisez la commande `cd docker-images/express-image/`. A ce moment là, on utilise la commande `docker build -t res/express_cities .`, puis la commande `docker run -p 9090:3000 res/express_cities`. Dans votre navigateur mettez la barre d'adresse http://192.168.99.100:9090/ et là il affiche une liste de villes aléatoire.
 
-## step 5 : reverse proxy et ip dynamique
+## Step 5 : reverse proxy et ip dynamique
 
 Ici nous allons régler notre problème lié au fait que nous devons lancer les docker dans un certaine ordre pour nos fichier de configurations. En effet si pour une raison ou une autre
 nos adresses de containers n'était pas identique à celle de notre fichier de configuration, 001-reverse-proxy.conf, alors cela ne fonctionnait pas.
@@ -116,7 +116,7 @@ RUN a2enmod proxy proxy_http
 RUN a2ensite 000-* 001-*
 ```
 
-maintenant en créant notre conainer nous pouvons attribuer les adresses de cette manière:
+maintenant en créant notre container nous pouvons attribuer les adresses de cette manière:
 ```docker run -e ENV_VAR1=adresseIP:Port -e ENV_VAR1=adresseIP:Port image_docker```
 
 le nom des variables d'environnement sont décidé lors de la création de notre ficher config-templace.
@@ -130,7 +130,7 @@ Exemple de commande:
 
 ## Bonus 1 : Management UI
 
-Le but est de pouvoir manager notre infrstructure web avec une interface graphique.
+Le but est de pouvoir manager notre infrastructure web avec une interface graphique.
 
 Pour cela nous allons utilisé ```Portainer.io```
 
@@ -143,4 +143,48 @@ Pour installer et lancer ```portainer.io``` avec docker il faut faire cette comm
 
 ```docker run -it -d --name portainer -v /var/run/docker.sock:/var/run/docker.sock -p 9000:9000 portainer/portainer```
 
-Après pour y accèder il suffit de placer l'ip de votre docker (générallement ```192.168.99.100```) suivit du port, ici 9000.
+Après pour y accéder il suffit de placer l'ip de votre docker (généralement ```192.168.99.100```) suivit du port, ici 9000.
+
+## Bonus 2 : Load Balancing
+
+Le but est de répartir la charge de travail entre plusieurs serveurs, nous avons donc modifié le reverse proxy.
+
+Nous avons modifier le dockerfile pour rajouter la gestion du load balancing avec la ligne `RUN a2enmod proxy_balancer lbmethod_byrequests`. Nous avons aussi changé le fichier php pour qu'il gère 6 serveurs (trois statiques et trois dynamiques) qui vont ce rendre la charge de travail.
+
+Le fichier config-template contient ceci:
+
+` <?php
+	$dynamic_app1 = getenv('DYNAMIC_APP1');
+	$dynamic_app2 = getenv('DYNAMIC_APP2');
+	$dynamic_app3 = getenv('DYNAMIC_APP3');
+	$static_app1 = getenv('STATIC_APP1');
+	$static_app2 = getenv('STATIC_APP2');
+	$static_app3 = getenv('STATIC_APP3');
+?>
+<VirtualHost *:80>
+	ProxyRequests off
+	ServerName labo.res.ch`
+	
+
+	<Proxy balancer://express-cluster>
+		BalancerMember 'http://<?php print "$dynamic_app1"?>'
+		BalancerMember 'http://<?php print "$dynamic_app2"?>'
+		BalancerMember 'http://<?php print "$dynamic_app3"?>'
+	</Proxy>
+
+
+	ProxyPass '/api/students/' 'balancer://express-cluster/'
+	ProxyPassReverse '/api/students/' 'balancer://express-cluster/'
+
+
+	<Proxy balancer://static-cluster>
+		BalancerMember 'http://<?php print "$static_app1"?>'
+		BalancerMember 'http://<?php print "$static_app1"?>'
+		BalancerMember 'http://<?php print "$static_app1"?>'
+	</Proxy>
+	
+	ProxyPass  '/' 'balancer://static-cluster/'
+	ProxyPassReverse '/' 'balancer://static-cluster/'
+`</VirtualHost>`
+
+Test: pour tester le load balancing, nous avons fait simple nous lançons 3 paires de serveurs, puis nous arrêtons 2 paires et le site fonctionne toujours.
