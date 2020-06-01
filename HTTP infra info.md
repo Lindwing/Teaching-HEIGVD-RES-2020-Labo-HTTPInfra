@@ -187,4 +187,4 @@ Le fichier config-template contient ceci:
 	ProxyPassReverse '/' 'balancer://static-cluster/'
 `</VirtualHost>`
 
-Test: pour tester le load balancing, nous avons fait simple nous lançons 3 paires de serveurs, puis nous arrêtons 2 paires et le site fonctionne toujours.
+## Test ## : pour tester le load balancing, nous avons fait simple nous lançons 3 paires de serveurs, puis nous arrêtons 2 paires et le site fonctionne toujours.
