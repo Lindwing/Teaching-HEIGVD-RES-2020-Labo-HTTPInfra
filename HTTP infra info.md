@@ -163,8 +163,7 @@ Le fichier config-template contient ceci:
 ?>
 <VirtualHost *:80>
 	ProxyRequests off
-	ServerName labo.res.ch`
-	
+	ServerName labo.res.ch
 
 	<Proxy balancer://express-cluster>
 		BalancerMember 'http://<?php print "$dynamic_app1"?>'
